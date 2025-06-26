@@ -1,0 +1,85 @@
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/home/codespace/.local/lib/python3.12/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/asyncio/base_events.py", line 684, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/codespace/.local/lib/python3.12/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/home/codespace/.local/lib/python3.12/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/home/codespace/.local/lib/python3.12/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# 1. Upload File
+from google.colab import files
+uploaded = files.upload()
+
+# 2. Import Library
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import io
+
+# 3. Load Dataset dengan delimiter ';'
+filename = list(uploaded.keys())[0]
+df = pd.read_csv(io.BytesIO(uploaded[filename]), sep=';')
+
+# 4. Eksplorasi Struktur Data
+print("=== Informasi Data ===")
+print(df.info())
+print("\n=== 5 Data Teratas ===")
+print(df.head())
+
+# 5. Statistik Deskriptif
+print("\n=== Statistik Deskriptif ===")
+print(df.describe(include='all'))
+
+# 6. Cek Nilai Kosong
+print("\n=== Jumlah Nilai Kosong ===")
+print(df.isnull().sum())
+
+# 7. Distribusi Nilai Akhir (G3)
+if 'G3' in df.columns:
+    plt.figure(figsize=(8, 4))
+    sns.histplot(df['G3'], bins=20, kde=True)
+    plt.title('Distribusi Nilai Akhir (G3)')
+    plt.xlabel('Nilai G3')
+    plt.ylabel('Jumlah Siswa')
+    plt.show()
+
+# 8. Korelasi Antar Fitur Numerik
+plt.figure(figsize=(12, 10))
+sns.heatmap(df.corr(numeric_only=True), annot=True, cmap='coolwarm')
+plt.title('Matriks Korelasi Fitur Numerik')
+plt.show()
+
+# 9. Distribusi Kolom Kategorik (contoh: 'sex')
+if 'sex' in df.columns:
+    sns.countplot(data=df, x='sex')
+    plt.title('Distribusi Jenis Kelamin')
+    plt.xlabel('Jenis Kelamin')
+    plt.ylabel('Jumlah')
+    plt.show()
+
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mModuleNotFoundError[39m                       Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 2[39m
+[32m      1[39m [38;5;66;03m# 1. Upload File[39;00m
+[32m----> [39m[32m2[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mgoogle[39;00m[34;01m.[39;00m[34;01mcolab[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m files
+[32m      3[39m uploaded = files.upload()
+[32m      5[39m [38;5;66;03m# 2. Import Library[39;00m
+
+[31mModuleNotFoundError[39m: No module named 'google'
+
